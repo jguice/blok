@@ -53,10 +53,11 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 312239200;
-			PBXWorkspaceStateSaveDate = 312239200;
+			PBXPerProjectTemplateStateSaveDate = 312239534;
+			PBXWorkspaceStateSaveDate = 312239534;
 		};
 		perUserProjectItems = {
+			B59574BB129C65E50026021E /* PBXTextBookmark */ = B59574BB129C65E50026021E /* PBXTextBookmark */;
 			B5F99029129C629800C96B59 = B5F99029129C629800C96B59 /* PBXTextBookmark */;
 			B5F9902A129C629800C96B59 = B5F9902A129C629800C96B59 /* PBXTextBookmark */;
 			B5F9902B129C629800C96B59 = B5F9902B129C629800C96B59 /* PBXTextBookmark */;
@@ -76,13 +77,23 @@
 	8D255AC50486D3F9007BF209 /* Blok */ = {
 		activeExec = 0;
 	};
+	B59574BB129C65E50026021E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F500797A0118B23001CA0E54 /* BlokView.m */;
+		name = "BlokView.m: 6";
+		rLen = 0;
+		rLoc = 87;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 0;
+	};
 	B5F99016129C60E400C96B59 /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
 			repositoryNamesForRoots = {
-				"" = "";
+				"" = local;
 			};
 		};
 	};
@@ -139,9 +150,9 @@
 	};
 	F500797A0118B23001CA0E54 /* BlokView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {670, 2171}}";
+			sepNavIntBoundsRect = "{{0, 0}, {670, 2210}}";
 			sepNavSelRange = "{87, 0}";
-			sepNavVisRange = "{0, 722}";
+			sepNavVisRange = "{0, 651}";
 		};
 	};
 }
