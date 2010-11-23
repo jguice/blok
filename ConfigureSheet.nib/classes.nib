@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {doneSheetAction = id; }; 
+            CLASS = BlokView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                colorWell = id; 
+                configSheet = id; 
+                sizeSlider = id; 
+                sizeTextfield = id; 
+                speedSlider = id; 
+                speedTextfield = id; 
+            }; 
+            SUPERCLASS = ScreenSaverView; 
+        }, 
+        {ACTIONS = {doneClick = id; }; CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = ScreenSaverView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}
