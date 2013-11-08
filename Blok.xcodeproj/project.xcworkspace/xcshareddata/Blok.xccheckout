@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C881AEB5-4A29-42FC-983F-973111B15981</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Blok</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>942268AD-E9B7-41F5-B6BB-06ED16170B89</key>
+		<string>https://bitbucket.org/jguice/blok.git</string>
+		<key>A02A2A18-E914-4916-9B1F-6EF24AAE63E5</key>
+		<string>https://bitbucket.org/jguice/blok.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Blok.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>942268AD-E9B7-41F5-B6BB-06ED16170B89</key>
+		<string>../..</string>
+		<key>A02A2A18-E914-4916-9B1F-6EF24AAE63E5</key>
+		<string>../../../../../development/personal/Blok-Git</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/jguice/blok.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>942268AD-E9B7-41F5-B6BB-06ED16170B89</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>942268AD-E9B7-41F5-B6BB-06ED16170B89</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Blok-Git</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A02A2A18-E914-4916-9B1F-6EF24AAE63E5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Blok-Git</string>
+		</dict>
+	</array>
+</dict>
+</plist>
