@@ -47,26 +47,24 @@ static NSString * const Blok = @"net.jguice.Blok";
 	blokSize = [(NSNumber *)[defaults valueForKey:@"Size"] intValue];
 	blokSpeed = [(NSNumber *)[defaults valueForKey:@"Speed"] intValue];
 	NSData *colorData = (NSData *)[defaults dataForKey:@"Color"];
-	color = (NSColor *)[[NSUnarchiver unarchiveObjectWithData:colorData] retain];
+	color = (NSColor *)[NSUnarchiver unarchiveObjectWithData:colorData];
 	
 	dx = blokSpeed;
 	dy = blokSpeed;
 	
-	at = [[NSAffineTransform transform] retain];
+	at = [NSAffineTransform transform];
 	[at translateXBy:dx yBy:dy];
 	
 	NSRect blokRect = NSMakeRect(blokSize,blokSize,blokSize,blokSize);
 	blokRect.origin = SSRandomPointForSizeWithinRect( blokRect.size, [self bounds] );
 	
-	blok = [[NSBezierPath bezierPathWithRect:blokRect] retain];
+	blok = [NSBezierPath bezierPathWithRect:blokRect];
 	[self setNeedsDisplay:YES];
 }
 
 - (void)stopAnimation
 {
     [super stopAnimation];
-	[at release];
-	[blok release];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -92,7 +90,6 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[self setNeedsDisplayInRect:[blok bounds]];
 	[blok transformUsingAffineTransform:at];
 	[self setNeedsDisplayInRect:[blok bounds]];
-	[blok retain];
     [self checkCollision];
     return;
 }
