@@ -26,7 +26,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[defaultDict setValue:[NSNumber numberWithInt: 10] forKey:@"Size"];
 	[defaultDict setValue:[NSNumber numberWithInt: 1] forKey:@"Speed"];		
 	
-	NSData *colorData = [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]];
+	NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[NSColor whiteColor] requiringSecureCoding:NO error:nil];
 	[defaultDict setValue:colorData forKey:@"Color"];
 	
 	// Register default prefs
@@ -47,7 +47,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	blokSize = [(NSNumber *)[defaults valueForKey:@"Size"] intValue];
 	blokSpeed = [(NSNumber *)[defaults valueForKey:@"Speed"] intValue];
 	NSData *colorData = (NSData *)[defaults dataForKey:@"Color"];
-	color = (NSColor *)[NSUnarchiver unarchiveObjectWithData:colorData];
+	color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
 	
 	dx = blokSpeed;
 	dy = blokSpeed;
@@ -126,7 +126,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	// Update defaults
 	[defaults setValue:[NSNumber numberWithInt:blokSize] forKey:@"Size"];
 	[defaults setValue:[NSNumber numberWithInt:blokSpeed] forKey:@"Speed"];
-	NSData *colorData = [NSArchiver archivedDataWithRootObject:color];
+	NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color requiringSecureCoding:NO error:nil];
 	[defaults setValue:colorData forKey:@"Color"];
 	
 	[defaults synchronize];
