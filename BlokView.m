@@ -18,6 +18,9 @@ static NSString * const Blok = @"net.jguice.Blok";
     if (self) {
         // 60 FPS for smooth animation
         [self setAnimationTimeInterval:1/60.0];
+
+        // Enable layer backing for hardware-accelerated, tear-free rendering
+        [self setWantsLayer:YES];
     }
 
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
@@ -51,8 +54,8 @@ static NSString * const Blok = @"net.jguice.Blok";
 	color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
 
 	// Initialize velocity (pixels per frame at 60 FPS)
-	// Reduced multiplier for smoother motion: speed of 10 = ~200 pixels/sec
-	CGFloat pixelsPerSecond = blokSpeed * 20.0;
+	// Speed scales linearly: speed of 10 = 600 pixels/sec
+	CGFloat pixelsPerSecond = blokSpeed * 60.0;
 	dx = pixelsPerSecond / 60.0;
 	dy = pixelsPerSecond / 60.0;
 
@@ -83,10 +86,6 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (void)animateOneFrame
 {
-	// Mark old position for redraw
-	NSRect oldRect = NSMakeRect(x, y, blokSize, blokSize);
-	[self setNeedsDisplayInRect:oldRect];
-
 	// Update position
 	x += dx;
 	y += dy;
@@ -94,9 +93,9 @@ static NSString * const Blok = @"net.jguice.Blok";
 	// Check for collisions and bounce
 	[self checkCollision];
 
-	// Mark new position for redraw
-	NSRect newRect = NSMakeRect(x, y, blokSize, blokSize);
-	[self setNeedsDisplayInRect:newRect];
+	// Redraw entire view for tear-free animation
+	// Layer-backing ensures this is hardware accelerated
+	[self setNeedsDisplay:YES];
 }
 
 - (void)checkCollision
