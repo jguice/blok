@@ -16,49 +16,53 @@ static NSString * const Blok = @"net.jguice.Blok";
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
-        [self setAnimationTimeInterval:1/30.0];
+        // 60 FPS for smooth animation
+        [self setAnimationTimeInterval:1/60.0];
     }
-	
+
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
-	
+
 	// Set default prefs
 	NSDictionary *defaultDict = [NSMutableDictionary dictionary];
 	[defaultDict setValue:[NSNumber numberWithInt: 10] forKey:@"Size"];
-	[defaultDict setValue:[NSNumber numberWithInt: 1] forKey:@"Speed"];		
-	
+	[defaultDict setValue:[NSNumber numberWithInt: 1] forKey:@"Speed"];
+
 	NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[NSColor whiteColor] requiringSecureCoding:NO error:nil];
 	[defaultDict setValue:colorData forKey:@"Color"];
-	
+
 	// Register default prefs
 	[defaults registerDefaults:defaultDict];
-	
+
 	[defaults synchronize];
-	
+
     return self;
 }
 
 - (void)startAnimation
 {
     [super startAnimation];
-	
+
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
-	
+
 	// Read prefs (default or otherwise)
 	blokSize = [(NSNumber *)[defaults valueForKey:@"Size"] intValue];
 	blokSpeed = [(NSNumber *)[defaults valueForKey:@"Speed"] intValue];
 	NSData *colorData = (NSData *)[defaults dataForKey:@"Color"];
 	color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
-	
-	dx = blokSpeed;
-	dy = blokSpeed;
-	
-	at = [NSAffineTransform transform];
-	[at translateXBy:dx yBy:dy];
-	
-	NSRect blokRect = NSMakeRect(blokSize,blokSize,blokSize,blokSize);
-	blokRect.origin = SSRandomPointForSizeWithinRect( blokRect.size, [self bounds] );
-	
-	blok = [NSBezierPath bezierPathWithRect:blokRect];
+
+	// Initialize velocity (pixels per frame at 60 FPS)
+	// Scale speed to be pixels per second, then divide by 60 for per-frame
+	CGFloat pixelsPerSecond = blokSpeed * 60.0;
+	dx = pixelsPerSecond / 60.0;
+	dy = pixelsPerSecond / 60.0;
+
+	// Random starting position
+	NSRect bounds = [self bounds];
+	NSRect blokRect = NSMakeRect(0, 0, blokSize, blokSize);
+	NSPoint startPoint = SSRandomPointForSizeWithinRect(blokRect.size, bounds);
+	x = startPoint.x;
+	y = startPoint.y;
+
 	[self setNeedsDisplay:YES];
 }
 
@@ -70,47 +74,51 @@ static NSString * const Blok = @"net.jguice.Blok";
 - (void)drawRect:(NSRect)rect
 {
 	[super drawRect:rect];
-	if (NO) {
-		NSString * debugString = 
-		[@"ob: " stringByAppendingString:[NSString stringWithFormat:@"%x", &blok]];
-		debugString = 
-		[debugString stringByAppendingString:[NSString stringWithFormat:@", b: %x", blok]];
-		debugString = 
-		[debugString stringByAppendingString:[NSString stringWithFormat:@", at: %x", at]];
-		NSMutableDictionary * attribs = [NSMutableDictionary dictionary];
-		[attribs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[debugString drawAtPoint:NSMakePoint(10,10) withAttributes:attribs];
-	}
+
+	// Draw the rectangle at current position
+	NSRect blokRect = NSMakeRect(x, y, blokSize, blokSize);
 	[color set];
-	[blok fill];
+	[NSBezierPath fillRect:blokRect];
 }
 
 - (void)animateOneFrame
-{	
-	[self setNeedsDisplayInRect:[blok bounds]];
-	[blok transformUsingAffineTransform:at];
-	[self setNeedsDisplayInRect:[blok bounds]];
-    [self checkCollision];
-    return;
+{
+	// Mark old position for redraw
+	NSRect oldRect = NSMakeRect(x, y, blokSize, blokSize);
+	[self setNeedsDisplayInRect:oldRect];
+
+	// Update position
+	x += dx;
+	y += dy;
+
+	// Check for collisions and bounce
+	[self checkCollision];
+
+	// Mark new position for redraw
+	NSRect newRect = NSMakeRect(x, y, blokSize, blokSize);
+	[self setNeedsDisplayInRect:newRect];
 }
 
 - (void)checkCollision
 {
-    NSRect blokRect = [blok bounds];
     NSRect viewRect = [self bounds];
-	
-    if (blokRect.origin.y < viewRect.origin.y || 
-		(blokRect.origin.y + blokRect.size.height) > viewRect.size.height) {
-		
+
+	// Check vertical bounds
+    if (y < viewRect.origin.y) {
+		y = viewRect.origin.y;
 		dy = -dy;
-		[at translateXBy:0 yBy:2*dy];
+    } else if (y + blokSize > NSMaxY(viewRect)) {
+		y = NSMaxY(viewRect) - blokSize;
+		dy = -dy;
     }
-	
-	if (blokRect.origin.x < viewRect.origin.x ||
-		(blokRect.origin.x + blokRect.size.width) > viewRect.size.width) {
-		
+
+	// Check horizontal bounds
+	if (x < viewRect.origin.x) {
+		x = viewRect.origin.x;
 		dx = -dx;
-		[at translateXBy:2*dx yBy:0];
+    } else if (x + blokSize > NSMaxX(viewRect)) {
+		x = NSMaxX(viewRect) - blokSize;
+		dx = -dx;
     }
 }
 

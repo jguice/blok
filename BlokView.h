@@ -18,11 +18,11 @@
 	NSTextField *speedTextfield;
 	NSColorWell *colorWell;
 
-    NSAffineTransform *at;
-	NSBezierPath *oldBlok,*blok;
 	NSColor *color;
 
-	float blokSize,blokSpeed,dx,dy;
+	CGFloat blokSize, blokSpeed;
+	CGFloat x, y;  // Current position
+	CGFloat dx, dy;  // Velocity
 }
 - (void)checkCollision;
 - (IBAction)doneSheetAction:(id)sender;
