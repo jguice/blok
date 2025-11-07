@@ -241,17 +241,32 @@ static NSString * const Blok = @"net.jguice.Blok";
 - (NSWindow*)configureSheet
 {
 	// Load preferences if not already loaded
-	if (!color) {
-		ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
-		blokSize = [(NSNumber *)[defaults valueForKey:@"Size"] intValue];
-		blokSpeed = [(NSNumber *)[defaults valueForKey:@"Speed"] intValue];
-		NSData *colorData = (NSData *)[defaults dataForKey:@"Color"];
-		color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
+	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
 
-		// Fallback to white if color is still nil
-		if (!color) {
-			color = [NSColor whiteColor];
-		}
+	// Always reload preferences to get current values
+	NSNumber *sizeNum = [defaults valueForKey:@"Size"];
+	NSNumber *speedNum = [defaults valueForKey:@"Speed"];
+	NSData *colorData = [defaults dataForKey:@"Color"];
+
+	// Set defaults if not found
+	if (sizeNum) {
+		blokSize = [sizeNum intValue];
+	} else {
+		blokSize = 10;
+	}
+
+	if (speedNum) {
+		blokSpeed = [speedNum intValue];
+	} else {
+		blokSpeed = 1;
+	}
+
+	// Try to unarchive color, fallback to white if it fails
+	if (colorData) {
+		color = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
+	}
+	if (!color) {
+		color = [NSColor whiteColor];
 	}
 
 	if (!configSheet)
