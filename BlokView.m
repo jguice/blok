@@ -51,8 +51,8 @@ static NSString * const Blok = @"net.jguice.Blok";
 	color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
 
 	// Initialize velocity (pixels per frame at 60 FPS)
-	// Scale speed to be pixels per second, then divide by 60 for per-frame
-	CGFloat pixelsPerSecond = blokSpeed * 60.0;
+	// Reduced multiplier for smoother motion: speed of 10 = ~200 pixels/sec
+	CGFloat pixelsPerSecond = blokSpeed * 20.0;
 	dx = pixelsPerSecond / 60.0;
 	dy = pixelsPerSecond / 60.0;
 
