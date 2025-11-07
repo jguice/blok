@@ -27,7 +27,7 @@
 		8D255AD20486D3F9007BF209 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B5F9902F129C62A900C96B59 /* ConfigureSheet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConfigureSheet.nib; sourceTree = "<group>"; };
 		B5F99031129C62A900C96B59 /* Blok.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Blok.saver; sourceTree = BUILT_PRODUCTS_DIR; };
-		B5F99033129C62B000C96B59 /* Blok.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Blok.icns; sourceTree = "<group>"; };
+		B5F99033129C62B000C96B59 /* Blok.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Blok.icns; sourceTree = "<group>"; includeInIndex = 0; };
 		F50079790118B23001CA0E54 /* BlokView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlokView.h; sourceTree = "<group>"; };
 		F500797A0118B23001CA0E54 /* BlokView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlokView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
