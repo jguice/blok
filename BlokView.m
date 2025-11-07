@@ -248,7 +248,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (NSWindow*)configureSheet
 {
-	// Load preferences if not already loaded
+	// Load preferences
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
 
 	// Always reload preferences to get current values
@@ -277,10 +277,9 @@ static NSString * const Blok = @"net.jguice.Blok";
 		color = [NSColor whiteColor];
 	}
 
-	if (!configSheet)
-	{
-		[self createConfigureSheet];
-	}
+	// Always create a fresh window to avoid "already in progress" errors
+	configSheet = nil;
+	[self createConfigureSheet];
 
 	[sizeSlider setIntValue:blokSize];
 	[sizeTextfield setIntValue:blokSize];
