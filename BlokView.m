@@ -116,22 +116,25 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (IBAction) doneSheetAction: (id) sender {
 	ScreenSaverDefaults *defaults;
-	
+
 	defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
-	
+
 	blokSize = [ sizeSlider intValue ];
 	blokSpeed = [ speedSlider intValue ];
 	color = [ colorWell color ];
-	
+
 	// Update defaults
 	[defaults setValue:[NSNumber numberWithInt:blokSize] forKey:@"Size"];
 	[defaults setValue:[NSNumber numberWithInt:blokSpeed] forKey:@"Speed"];
 	NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color requiringSecureCoding:NO error:nil];
 	[defaults setValue:colorData forKey:@"Color"];
-	
+
 	[defaults synchronize];
-	
-	[NSApp endSheet: configSheet];
+
+	// Modern sheet dismissal
+	if (configSheet.sheetParent) {
+		[configSheet.sheetParent endSheet:configSheet];
+	}
 }
 
 - (BOOL)hasConfigureSheet
@@ -139,23 +142,114 @@ static NSString * const Blok = @"net.jguice.Blok";
     return YES;
 }
 
+- (NSWindow *)createConfigureSheet
+{
+	// Create window
+	NSRect contentRect = NSMakeRect(0, 0, 400, 240);
+	configSheet = [[NSWindow alloc] initWithContentRect:contentRect
+											   styleMask:NSWindowStyleMaskTitled
+												 backing:NSBackingStoreBuffered
+												   defer:NO];
+	[configSheet setTitle:@"Blok Options"];
+
+	NSView *contentView = [configSheet contentView];
+	CGFloat y = contentRect.size.height - 40;
+
+	// Size controls
+	NSTextField *sizeLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	[sizeLabel setStringValue:@"Size:"];
+	[sizeLabel setBezeled:NO];
+	[sizeLabel setDrawsBackground:NO];
+	[sizeLabel setEditable:NO];
+	[sizeLabel setSelectable:NO];
+	[contentView addSubview:sizeLabel];
+
+	sizeSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(100, y, 200, 20)];
+	[sizeSlider setMinValue:5];
+	[sizeSlider setMaxValue:100];
+	[sizeSlider setIntValue:blokSize];
+	[sizeSlider setTarget:self];
+	[sizeSlider setAction:@selector(sliderChanged:)];
+	[contentView addSubview:sizeSlider];
+
+	sizeTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(310, y, 60, 20)];
+	[sizeTextfield setIntValue:blokSize];
+	[sizeTextfield setEditable:NO];
+	[contentView addSubview:sizeTextfield];
+
+	y -= 40;
+
+	// Speed controls
+	NSTextField *speedLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	[speedLabel setStringValue:@"Speed:"];
+	[speedLabel setBezeled:NO];
+	[speedLabel setDrawsBackground:NO];
+	[speedLabel setEditable:NO];
+	[speedLabel setSelectable:NO];
+	[contentView addSubview:speedLabel];
+
+	speedSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(100, y, 200, 20)];
+	[speedSlider setMinValue:1];
+	[speedSlider setMaxValue:10];
+	[speedSlider setIntValue:blokSpeed];
+	[speedSlider setTarget:self];
+	[speedSlider setAction:@selector(sliderChanged:)];
+	[contentView addSubview:speedSlider];
+
+	speedTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(310, y, 60, 20)];
+	[speedTextfield setIntValue:blokSpeed];
+	[speedTextfield setEditable:NO];
+	[contentView addSubview:speedTextfield];
+
+	y -= 40;
+
+	// Color controls
+	NSTextField *colorLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	[colorLabel setStringValue:@"Color:"];
+	[colorLabel setBezeled:NO];
+	[colorLabel setDrawsBackground:NO];
+	[colorLabel setEditable:NO];
+	[colorLabel setSelectable:NO];
+	[contentView addSubview:colorLabel];
+
+	colorWell = [[NSColorWell alloc] initWithFrame:NSMakeRect(100, y - 5, 60, 30)];
+	[colorWell setColor:color];
+	[contentView addSubview:colorWell];
+
+	// OK button
+	NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(300, 20, 80, 32)];
+	[okButton setTitle:@"OK"];
+	[okButton setBezelStyle:NSBezelStyleRounded];
+	[okButton setTarget:self];
+	[okButton setAction:@selector(doneSheetAction:)];
+	[okButton setKeyEquivalent:@"\r"];
+	[contentView addSubview:okButton];
+
+	return configSheet;
+}
+
+- (void)sliderChanged:(id)sender
+{
+	if (sender == sizeSlider) {
+		[sizeTextfield setIntValue:[sizeSlider intValue]];
+	} else if (sender == speedSlider) {
+		[speedTextfield setIntValue:[speedSlider intValue]];
+	}
+}
+
 - (NSWindow*)configureSheet
 {
 	if (!configSheet)
 	{
-		if (![NSBundle loadNibNamed:@"ConfigureSheet" owner:self]) 
-		{
-			NSLog( @"Failed to load configure sheet." );
-			NSBeep();
-		}
+		[self createConfigureSheet];
 	}
-	
+
 	[sizeSlider setIntValue:blokSize];
 	[sizeTextfield setIntValue:blokSize];
 	[speedSlider setIntValue:blokSpeed];
 	[speedTextfield setIntValue:blokSpeed];
 	[colorWell setColor:color];
-	
+
 	return configSheet;
 }
 

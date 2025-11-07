@@ -14,6 +14,7 @@
 		8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */; };
 		B5F99030129C62A900C96B59 /* ConfigureSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = B5F9902F129C62A900C96B59 /* ConfigureSheet.nib */; };
+		B5F99032129C62B000C96B59 /* Blok.icns in Resources */ = {isa = PBXBuildFile; fileRef = B5F99033129C62B000C96B59 /* Blok.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8D255AD20486D3F9007BF209 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B5F9902F129C62A900C96B59 /* ConfigureSheet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConfigureSheet.nib; sourceTree = "<group>"; };
 		B5F99031129C62A900C96B59 /* Blok.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Blok.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5F99033129C62B000C96B59 /* Blok.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Blok.icns; sourceTree = "<group>"; };
 		F50079790118B23001CA0E54 /* BlokView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlokView.h; sourceTree = "<group>"; };
 		F500797A0118B23001CA0E54 /* BlokView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlokView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,6 +72,7 @@
 			children = (
 				8D255AD20486D3F9007BF209 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				B5F99033129C62B000C96B59 /* Blok.icns */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			files = (
 				8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */,
 				B5F99030129C62A900C96B59 /* ConfigureSheet.nib in Resources */,
+				B5F99032129C62B000C96B59 /* Blok.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
