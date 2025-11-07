@@ -21,6 +21,14 @@ static NSString * const Blok = @"net.jguice.Blok";
 
         // Enable layer backing for hardware-accelerated, tear-free rendering
         [self setWantsLayer:YES];
+
+        // CRITICAL: Set proper redraw policy for smooth animation performance
+        self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+
+        // Ensure sharp rendering on Retina displays
+        if (self.layer) {
+            self.layer.contentsScale = [[NSScreen mainScreen] backingScaleFactor];
+        }
     }
 
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
@@ -86,6 +94,10 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (void)animateOneFrame
 {
+	// Mark old position for redraw
+	NSRect oldRect = NSMakeRect(x, y, blokSize, blokSize);
+	[self setNeedsDisplayInRect:oldRect];
+
 	// Update position
 	x += dx;
 	y += dy;
@@ -93,9 +105,9 @@ static NSString * const Blok = @"net.jguice.Blok";
 	// Check for collisions and bounce
 	[self checkCollision];
 
-	// Redraw entire view for tear-free animation
-	// Layer-backing ensures this is hardware accelerated
-	[self setNeedsDisplay:YES];
+	// Mark new position for redraw (more efficient than full view)
+	NSRect newRect = NSMakeRect(x, y, blokSize, blokSize);
+	[self setNeedsDisplayInRect:newRect];
 }
 
 - (void)checkCollision
