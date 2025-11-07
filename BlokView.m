@@ -239,6 +239,20 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (NSWindow*)configureSheet
 {
+	// Load preferences if not already loaded
+	if (!color) {
+		ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
+		blokSize = [(NSNumber *)[defaults valueForKey:@"Size"] intValue];
+		blokSpeed = [(NSNumber *)[defaults valueForKey:@"Speed"] intValue];
+		NSData *colorData = (NSData *)[defaults dataForKey:@"Color"];
+		color = (NSColor *)[NSKeyedUnarchiver unarchivedObjectOfClass:[NSColor class] fromData:colorData error:nil];
+
+		// Fallback to white if color is still nil
+		if (!color) {
+			color = [NSColor whiteColor];
+		}
+	}
+
 	if (!configSheet)
 	{
 		[self createConfigureSheet];
