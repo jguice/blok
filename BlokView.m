@@ -144,19 +144,20 @@ static NSString * const Blok = @"net.jguice.Blok";
 
 - (NSWindow *)createConfigureSheet
 {
-	// Create window
-	NSRect contentRect = NSMakeRect(0, 0, 400, 240);
+	// Create window with proper sheet style
+	NSRect contentRect = NSMakeRect(0, 0, 450, 200);
 	configSheet = [[NSWindow alloc] initWithContentRect:contentRect
-											   styleMask:NSWindowStyleMaskTitled
+											   styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable)
 												 backing:NSBackingStoreBuffered
 												   defer:NO];
 	[configSheet setTitle:@"Blok Options"];
+	[configSheet setLevel:NSModalPanelWindowLevel];
 
 	NSView *contentView = [configSheet contentView];
-	CGFloat y = contentRect.size.height - 40;
+	CGFloat y = 140;
 
 	// Size controls
-	NSTextField *sizeLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	NSTextField *sizeLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 22)];
 	[sizeLabel setStringValue:@"Size:"];
 	[sizeLabel setBezeled:NO];
 	[sizeLabel setDrawsBackground:NO];
@@ -164,7 +165,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[sizeLabel setSelectable:NO];
 	[contentView addSubview:sizeLabel];
 
-	sizeSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(100, y, 200, 20)];
+	sizeSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(110, y, 220, 22)];
 	[sizeSlider setMinValue:5];
 	[sizeSlider setMaxValue:100];
 	[sizeSlider setIntValue:blokSize];
@@ -172,7 +173,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[sizeSlider setAction:@selector(sliderChanged:)];
 	[contentView addSubview:sizeSlider];
 
-	sizeTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(310, y, 60, 20)];
+	sizeTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(340, y, 80, 22)];
 	[sizeTextfield setIntValue:blokSize];
 	[sizeTextfield setEditable:NO];
 	[contentView addSubview:sizeTextfield];
@@ -180,7 +181,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	y -= 40;
 
 	// Speed controls
-	NSTextField *speedLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	NSTextField *speedLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 22)];
 	[speedLabel setStringValue:@"Speed:"];
 	[speedLabel setBezeled:NO];
 	[speedLabel setDrawsBackground:NO];
@@ -188,7 +189,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[speedLabel setSelectable:NO];
 	[contentView addSubview:speedLabel];
 
-	speedSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(100, y, 200, 20)];
+	speedSlider = [[NSSlider alloc] initWithFrame:NSMakeRect(110, y, 220, 22)];
 	[speedSlider setMinValue:1];
 	[speedSlider setMaxValue:10];
 	[speedSlider setIntValue:blokSpeed];
@@ -196,7 +197,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[speedSlider setAction:@selector(sliderChanged:)];
 	[contentView addSubview:speedSlider];
 
-	speedTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(310, y, 60, 20)];
+	speedTextfield = [[NSTextField alloc] initWithFrame:NSMakeRect(340, y, 80, 22)];
 	[speedTextfield setIntValue:blokSpeed];
 	[speedTextfield setEditable:NO];
 	[contentView addSubview:speedTextfield];
@@ -204,7 +205,7 @@ static NSString * const Blok = @"net.jguice.Blok";
 	y -= 40;
 
 	// Color controls
-	NSTextField *colorLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 20)];
+	NSTextField *colorLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, y, 80, 22)];
 	[colorLabel setStringValue:@"Color:"];
 	[colorLabel setBezeled:NO];
 	[colorLabel setDrawsBackground:NO];
@@ -212,12 +213,12 @@ static NSString * const Blok = @"net.jguice.Blok";
 	[colorLabel setSelectable:NO];
 	[contentView addSubview:colorLabel];
 
-	colorWell = [[NSColorWell alloc] initWithFrame:NSMakeRect(100, y - 5, 60, 30)];
+	colorWell = [[NSColorWell alloc] initWithFrame:NSMakeRect(110, y - 5, 50, 32)];
 	[colorWell setColor:color];
 	[contentView addSubview:colorWell];
 
 	// OK button
-	NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(300, 20, 80, 32)];
+	NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(340, 20, 90, 32)];
 	[okButton setTitle:@"OK"];
 	[okButton setBezelStyle:NSBezelStyleRounded];
 	[okButton setTarget:self];
