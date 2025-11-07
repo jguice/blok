@@ -154,6 +154,9 @@ static NSString * const Blok = @"net.jguice.Blok";
 	if (configSheet.sheetParent) {
 		[configSheet.sheetParent endSheet:configSheet];
 	}
+
+	// Clean up the sheet so a fresh one is created next time
+	configSheet = nil;
 }
 
 - (BOOL)hasConfigureSheet
@@ -288,9 +291,10 @@ static NSString * const Blok = @"net.jguice.Blok";
 		color = [NSColor whiteColor];
 	}
 
-	// Always create a fresh window to avoid "already in progress" errors
-	configSheet = nil;
-	[self createConfigureSheet];
+	// Only create a new window if we don't have one
+	if (!configSheet) {
+		[self createConfigureSheet];
+	}
 
 	[sizeSlider setIntValue:blokSize];
 	[sizeTextfield setIntValue:blokSize];
