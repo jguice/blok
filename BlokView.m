@@ -29,6 +29,14 @@ static NSString * const Blok = @"net.jguice.Blok";
         if (self.layer) {
             self.layer.contentsScale = [[NSScreen mainScreen] backingScaleFactor];
         }
+
+        // WORKAROUND for macOS Sonoma/Sequoia bug where stopAnimation is never called
+        // Listen for screensaver stop notification to force proper cleanup
+        [[NSDistributedNotificationCenter defaultCenter]
+            addObserver:self
+            selector:@selector(screensaverDidStop:)
+            name:@"com.apple.screensaver.didstop"
+            object:nil];
     }
 
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:Blok];
@@ -80,6 +88,19 @@ static NSString * const Blok = @"net.jguice.Blok";
 - (void)stopAnimation
 {
     [super stopAnimation];
+}
+
+- (void)screensaverDidStop:(NSNotification *)notification
+{
+    // WORKAROUND: macOS Sonoma/Sequoia bug - stopAnimation is never called
+    // Force termination to prevent background CPU/memory usage and focus stealing
+    // This is the same fix used by Fliqlo 1.9.4 and other modern screensavers
+    exit(0);
+}
+
+- (void)dealloc
+{
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)drawRect:(NSRect)rect
