@@ -9,21 +9,23 @@
 #import <ScreenSaver/ScreenSaver.h>
 
 
-@interface BlokView : ScreenSaverView 
+@interface BlokView : ScreenSaverView
 {
-	IBOutlet id configSheet;
-	IBOutlet id sizeSlider;
-	IBOutlet id speedSlider;
-	IBOutlet id sizeTextfield;
-	IBOutlet id speedTextfield;
-	IBOutlet id colorWell;
-	
-    NSAffineTransform *at;
-	NSBezierPath *oldBlok,*blok;
+	NSWindow *configSheet;
+	NSSlider *sizeSlider;
+	NSSlider *speedSlider;
+	NSTextField *sizeTextfield;
+	NSTextField *speedTextfield;
+	NSColorWell *colorWell;
+
 	NSColor *color;
-	
-	float blokSize,blokSpeed,dx,dy;
+
+	CGFloat blokSize, blokSpeed;
+	CGFloat x, y;  // Current position
+	CGFloat dx, dy;  // Velocity
 }
 - (void)checkCollision;
-- (IBAction) doneSheetAction: (id) sender;
+- (IBAction)doneSheetAction:(id)sender;
+- (void)sliderChanged:(id)sender;
+- (NSWindow *)createConfigureSheet;
 @end
